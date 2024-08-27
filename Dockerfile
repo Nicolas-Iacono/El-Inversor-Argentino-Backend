@@ -22,7 +22,7 @@ FROM openjdk:17.0.1-jdk
 # Establece el directorio de trabajo en /usr/src/app
 WORKDIR /usr/src/app
 
-# Copia el archivo JAR de la aplicación al contenedor y renómbralo
+# Copia el archivo JAR de la aplicación desde la etapa de construcción
 COPY --from=build /home/app/target/inv-arg-0.0.1-SNAPSHOT.jar inv-arg-0.0.1.jar
 
 # Exponer el puerto en el que la aplicación se ejecutará

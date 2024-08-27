@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  inv-arg:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      JDBC_DATABASE_URL: jdbc:mysql://inversordb:3306/iadb?createDatabaseIfNotExist=true&serverTimezone=UTC
+      JDBC_DATABASE_USERNAME: root
+      JDBC_DATABASE_PASSWORD: root
+    restart: always
+    depends_on:
+      inversordb:
+        condition: service_healthy
+
+  inversordb:
+    image: mysql:8.0.33
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: iadb
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
